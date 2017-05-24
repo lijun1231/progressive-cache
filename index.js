@@ -147,7 +147,7 @@ let getCookie = name => {
     }
 };
 
-module.exports = {
+module.exports.dataController = {
     /*
         aim: 初始化
         input:
