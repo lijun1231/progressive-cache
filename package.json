@@ -1,0 +1,23 @@
+{
+  "name": "progressive-cache",
+  "version": "0.0.1",
+  "description": "渐进式缓存",
+  "main": "progressive-cache.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lijun1231/progressive-cache.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lijun1231/progressive-cache/issues"
+  },
+  "homepage": "https://github.com/lijun1231/progressive-cache#readme",
+  "dependencies": {
+    "js-md5": "^0.4.2"
+  }
+}
