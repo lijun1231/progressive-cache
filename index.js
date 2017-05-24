@@ -168,7 +168,7 @@ module.exports = {
             dbName: 'localDb',
             version: '0.1.0',
             info: 'localDb',
-            size: 2 * 1024 * 1024,
+            size: (op.size || 5) * 1024 * 1024,
             loginFreshOption: op.loginFreshOption || null,
         });
 
