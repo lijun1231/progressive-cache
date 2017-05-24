@@ -1,10 +1,12 @@
 使用方法：
 ====
 github：
+--
 #### https://github.com/lijun1231/progressive-cache
+
 示意图：
 --
-####### https://github.com/lijun1231/progressive-cache/blob/master/images/explanation.png
+#### https://github.com/lijun1231/progressive-cache/blob/master/images/explanation.png
 
 
 通常，咱们的项目中，会有一个接口名和接口地址对应表 interface.js

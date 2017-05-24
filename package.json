@@ -1,6 +1,6 @@
 {
   "name": "progressive-cache",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "description": "渐进式缓存",
   "main": "progressive-cache.js",
   "scripts": {

@@ -147,7 +147,7 @@ let getCookie = name => {
     }
 };
 
-module.exports.dataController = {
+module.exports = {
     /*
         aim: 初始化
         input:
@@ -310,7 +310,6 @@ module.exports.dataController = {
         else {
             return new Promise(resolve => {
                 this.fetchData(name, params).then(res => {
-                    console.log(res);
                     resolve(res.body.data);
                 });
             });
