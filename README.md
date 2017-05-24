@@ -42,6 +42,7 @@ npm install progressive-cache
 import dataController from 'progressive-cache'; // 引入node_module包
 import model from 'xx/model'; // 你自己的配置表文件
 dataController.init({
+    size: 10, // 单位MB，表示给定容量，默认为5MB
     ajax: /* 您自己的ajax方法 */, // 传入ajax方法, 该方法接收 name, params两个参数
     model: model, // model须包含 staticData和dynamicData两个对象
     // 如果您想要在新用户登录的时候，清理掉原用户的数据
