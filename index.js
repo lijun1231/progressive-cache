@@ -5,6 +5,7 @@ let ajax, model;
 const md5 = require('js-md5');
 const MS_DAY = 86400000; // 一天的毫秒数：24 * 3600 * 1000;
 const MS_PERIOD = MS_DAY; // 设置默认有效期
+let surportDb = window.openDatabase ? true : false;
 
 /*
     -- 注释说明：
@@ -163,6 +164,7 @@ module.exports = {
     init (op) {
         ajax = op.ajax; // 传入ajax方法, 该方法接收 name, params两个参数
         model = op.model; // model须包含 staticData和dynamicData两个对象
+        if (!surportDb) return;
         // 创建数据库实例
         this.localDb = new DB({
             dbName: 'localDb',
@@ -272,7 +274,7 @@ module.exports = {
         }
 
         // 第二级：缓存数据 —— dynamicData
-        else if (model.dynamicData[name]) {
+        else if (surportDb && model.dynamicData[name]) {
             let interfaceObj = model.dynamicData[name];
             let key = md5(`${name}${JSON.stringify(this.sortObj(params))}`);
             return new Promise(resolve => {
