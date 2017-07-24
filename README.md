@@ -1,6 +1,15 @@
 | update | state | tips |
 |-|-|-|
 | 2017年07月24日 | 修复可用性 | 当不支持websql的时候，依然可用 |
+| 2017年07月24日 | babel-preset-stage-2 | 增加开发环境实时编译，保证publish es5语法 |
+
+开发
+===
+```javascript
+npm install babel-cli // 工具依赖
+yarn // 安装所需工具
+npm run watch // 实时编译
+```
 
 使用方法：
 ====

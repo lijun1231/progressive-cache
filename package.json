@@ -1,23 +1,34 @@
 {
-  "name": "progressive-cache",
-  "version": "0.0.6",
-  "description": "渐进式缓存",
-  "main": "progressive-cache.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/lijun1231/progressive-cache.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/lijun1231/progressive-cache/issues"
-  },
-  "homepage": "https://github.com/lijun1231/progressive-cache#readme",
-  "dependencies": {
-    "js-md5": "^0.4.2"
-  }
+    "name": "progressive-cache",
+    "version": "0.0.7",
+    "description": "渐进式缓存",
+    "main": "progressive-cache.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "watch": "babel src/index.js --watch --out-file index.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/lijun1231/progressive-cache.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/lijun1231/progressive-cache/issues"
+    },
+    "homepage": "https://github.com/lijun1231/progressive-cache#readme",
+    "dependencies": {
+        "js-md5": "^0.4.2",
+        "babel-cli": "^6.24.1",
+        "babel-preset-stage-2": "^6.24.1",
+        "global": "^4.3.2"
+    },
+    "devDependencies": {
+        "babel-core": "^6.0.0",
+        "babel-loader": "^6.0.0",
+        "babel-plugin-transform-runtime": "^6.0.0",
+        "babel-preset-es2015": "^6.0.0",
+        "babel-preset-stage-2": "^6.0.0"
+    }
 }
