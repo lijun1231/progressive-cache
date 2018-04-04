@@ -11,42 +11,29 @@ yarn // 安装所需工具
 npm run watch // 实时编译
 ```
 
+示意图：
+====
+####
+![image](https://github.com/lijun1231/progressive-cache/blob/master/images/explanation.png)
+
 使用方法：
 ====
-github：
---
-####  https://github.com/lijun1231/progressive-cache
-
-
-示意图：
---
-#### https://github.com/lijun1231/progressive-cache/blob/master/images/explanation.png
-
-
 通常，咱们的项目中，会有一个接口名和接口地址对应表 interface.js
 --
 ```javascript
 export default {
-    getInitData: ['/web/getInitData', 'get', op => {
+    getDetail: ['/web/getDetail', 'get', op => {
         return op;
     }],
-    getAuthType: ['/web/getAuthType'],
-    getApplications: '/web/getApplications',
-    getAuthItems: '/web/getAuthItems',
-    getAuthContents: '/web/getAuthContents',
-    getOrgTree: '/web/getOrgTree',
-    applyCommit: '/web/applyCommit',
-    queryAuthApproval: '/web/queryAuthApproval',
-    agreeAuthApproval: '/web/agreeAuthApproval',
-    rejectAuthApproval: '/web/rejectAuthApproval',
-    getMyAuth: '/web/getMyAuth',
+    getList: ['/web/getList'],
+    getContent: '/web/getContent',
 };
 ```
 
 安装
 --
 ``` javascript
-npm install progressive-cache
+mnpm install @hfe/progressive-cache
 ```
 
 初始化 —— 你可以在任何地方init，比如：在DOMContentLoaded之后：
@@ -66,10 +53,10 @@ dataController.init({
 
     // 如果您需要在初始化的时候，预加载一些数据
     prefetchList: [{
-            name: 'getAuthType',
+            name: 'getList',
         }, {
-            name: 'getAuthItems',
-            params: { authType: 1 }, // 还可以传递参数
+            name: 'getDetail',
+            params: { a: 1 }, // 还可以传递参数
         }
     ]
 });
@@ -87,15 +74,13 @@ export default {
 }
 // static-data.js：
 export default {
-    getApplyType: [{id:0,name:'个人'},{id:1,name:'组织'}],
-    getAuthScopes: [{"id":0,"name":"全部数据权限"},{"id":-1,"name":"具体应用【某应用的数据权限和其他应用都不一样，单独申请】"}],
-    validities: [{id:1,name:'一个月'},{id:2,name:'三个月'},{id:3,name:'两年'}],
+    getContent: [{a: 1, b: 2}],
 }
 // dynamic-data.js：
 const MS_DAY = 86400000; // 天小时的毫秒数：24 * 3600 * 1000;
 export default {
-    getAuthType: {},
-    getAuthItems: {
+    getList: {},
+    getDetail: {
         period: MS_DAY, // 有效期
         defCheckTrigger() {
             return new Promise((resolve) => {
@@ -107,7 +92,7 @@ export default {
     getAuthContents: {
         period: MS_DAY,
     },
-    getApplications: {
+    getContent: {
         period: MS_DAY
     }
 }
@@ -117,7 +102,7 @@ export default {
 --
 ```javascript
 dataController.prefetchData([{
-    name: 'getAuthItems',
+    name: 'getDetail',
     params: {}
 }, {
     name: 'xxx',
@@ -131,13 +116,13 @@ dataController.prefetchData([{
 // 只需要传入interface.js中定义的接口名和参数即可
 // 参数不分先后，比如{a: 1, b: 2} 与{b: 2, a: 1} 在缓存是否存在的对比过程中，会被认为是相同的参数
 // 你不用担心缓存配置表中没有配置就无法正常ajax，如果缓存配置表中没有配置，则会正常的ajax，所以全站都可以使用getData来请求数据
-dataController.getData('getAuthItems', { authType: 1 }, {
+dataController.getData('getDetail', { authType: 1 }, {
 }).then(data => {
     console.log(data); // data是Response.body.data中的值
 });
 
 // 如果还不满足，你在业务中还需要根据当时的场景和状态进行额外的判定触发更新缓存，可以speCheckTrigger参数作为自定义触发器
-dataController.getData('getAuthItems', { authType: 1 }, {
+dataController.getData('getDetail', { authType: 1 }, {
     // 自定义触发器
     speCheckTrigger: () => {
         return new Promise(resolve => {
@@ -148,10 +133,23 @@ dataController.getData('getAuthItems', { authType: 1 }, {
 }).then(data => {
     console.log(data);
 });
+
+// 在执行request请求的时候，除了请求参数之外
+// 可能还需要按需透传一些配置项，用于自己的业务中进行一些特殊处理
+dataController.getData('getDetail', { authType: 1 }, {
+    // 自定义触发器
+    opt: {
+        origin: 'http://xxx.com',
+    }
+}).then(data => {
+    console.log(data);
+});
+// 透传参数给 request 请求获取到这个opt了
+
 ```
 数据清理
 --
 ``` javascript
 dataController.clearData(): // 清理所有缓存数据
-dataController.clearData(['getAuthItems', 'xxx']): // 清理指定缓存数据
+dataController.clearData(['getDetail', 'xxx']): // 清理指定缓存数据
 ```
