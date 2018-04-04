@@ -286,7 +286,7 @@ module.exports = {
                                     freshType = rowSta.freshType;
 
                                 if (shouldFresh) {
-                                    return _this7.fetchData(name, params).then(function (res) {
+                                    return _this7.fetchData(name, params, option && option.opt).then(function (res) {
                                         var body = res.body,
                                             bodyText = res.bodyText;
 
@@ -305,9 +305,11 @@ module.exports = {
                     });
                 });
             } else {
-                    return new _promise2.default(function (resolve) {
-                        _this7.fetchData(name, params).then(function (res) {
+                    return new _promise2.default(function (resolve, reject) {
+                        _this7.fetchData(name, params, option && option.opt).then(function (res) {
                             resolve(res.body.data);
+                        }).catch(function (res) {
+                            reject(res && res.body && res.body.data || {});
                         });
                     });
                 }
@@ -335,11 +337,13 @@ module.exports = {
             });
         });
     },
-    fetchData: function fetchData(name, params) {
+    fetchData: function fetchData(name, params, opt) {
         params = params || {};
-        return new _promise2.default(function (resolve) {
-            ajax(name, params).then(function (res) {
+        return new _promise2.default(function (resolve, reject) {
+            ajax(name, params, opt).then(function (res) {
                 resolve(res);
+            }).catch(function (res) {
+                reject(res);
             });
         });
     },

@@ -6,7 +6,6 @@ const md5 = require('js-md5');
 const MS_DAY = 86400000; // 一天的毫秒数：24 * 3600 * 1000;
 const MS_PERIOD = MS_DAY; // 设置默认有效期
 let surportDb = window.openDatabase ? true : false;
-
 /*
     -- 注释说明：
         创建数据库
@@ -285,11 +284,12 @@ module.exports = {
                     }).then(resSel => {
                         // 由于cd_keys的唯一性，查出来的dataSel至多有一条记录
                         let dataSel = resSel.rows;
+
                         // 判断是否需要刷新数据
                         this.getRowStatus(dataSel, option).then(rowSta => {
                             let {shouldFresh, freshType} = rowSta;
                             if (shouldFresh) {
-                                return this.fetchData(name, params).then(res => {
+                                return this.fetchData(name, params, option && option.opt).then(res => {
                                     // 请求数据
                                     let { body, bodyText } = res;
                                     resolve(body.data);
@@ -310,9 +310,11 @@ module.exports = {
 
         // 第三级：非内存数据，非缓存数据，直接执行ajax
         else {
-            return new Promise(resolve => {
-                this.fetchData(name, params).then(res => {
+            return new Promise((resolve, reject) => {
+                this.fetchData(name, params, option && option.opt).then(res => {
                     resolve(res.body.data);
+                }).catch(res => {
+                    reject(res && res.body && res.body.data || {});
                 });
             });
         }
@@ -353,14 +355,17 @@ module.exports = {
         aim: 获取数据
         input:
             name(非空)：接口名（定义的接口代号）
-            params(请求参数):
+            params(请求参数): 可空
+            opt(透传配置项): 可空
         output: Promise对象
     */
-    fetchData (name, params) {
+    fetchData (name, params, opt) {
         params = params || {};
-        return new Promise(resolve => {
-            ajax(name, params).then(res => {
+        return new Promise((resolve, reject) => {
+            ajax(name, params, opt).then(res => {
                 resolve(res);
+            }).catch(res => {
+                reject(res);
             });
         });
     },
